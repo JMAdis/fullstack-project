@@ -1,39 +1,44 @@
-import React, {useState} from "react";
+import Slider from "react-slick";
+import Book from "../Book/Book";
+import BookRequest from "../../types/BookRequest";
 
-type CarouselProps = {
-    images: string;
-}
 
-const Carousel = ({images} : CarouselProps) => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    
-    const nextSlide = () => {
-        setActiveIndex((prevIndex) => 
-        prevIndex === images.length -1 ? 0 : prevIndex + 1
-        );
-    };
+const NextArrow = ({ onClick }) => (
+    <button className="custom-next-arrow" onClick={onClick}>
+      Next
+    </button>
+  );
 
-    const prevSlide = () => {
-        setActiveIndex((prevIndex) =>
-        prevIndex === 0 ? images.length -1 : prevIndex - 1
-        );
-    };
+  const PrevArrow = ({ onClick }) => (
+    <button className="custom-prev-arrow" onClick={onClick}>
+      Prev
+    </button>
+  );
 
-    return (
-        <div className="carousel">
-            <button onClick={prevSlide} className="carousel__btn carousel__btn--prev">
-                &lt;
-            </button>
-            <img
-            src={images[activeIndex]}
-            alt={`Slide ${activeIndex}`}
-            className="carousel__img"
-            />
-            <button onClick={nextSlide} className="carousel__btn carousel__buton--next">
-                &gt;
-            </button>
+  type CarouselProps = {
+    books: BookRequest[];
+  };
+
+const Carousel = ( {books} : CarouselProps) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow onClick={undefined} />,
+    prevArrow: <PrevArrow onClick={undefined} />,
+  };
+
+  
+  return (
+    <Slider {...settings}>
+      {books.map((book) => (
+        <div key={book.id}>
+          <Book book={book} />
         </div>
-    );
+      ))}
+    </Slider>
+  );
 };
 
 export default Carousel;
