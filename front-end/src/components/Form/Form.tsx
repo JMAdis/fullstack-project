@@ -25,7 +25,14 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
   const handleInput = (
     event: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     key: string
-  ) => setBook({ ...book, [key]: event.currentTarget.value });
+  ) => {
+    let value = event.currentTarget.value;
+
+    if (key === 'score') {
+        value = String(Math.min(10, Math.max(0, parseInt(value, 10))));
+    }
+    setBook({...book, [key]: value});
+}
 
   return (
     <div className="form-container">
