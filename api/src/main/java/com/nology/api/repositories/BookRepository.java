@@ -1,11 +1,15 @@
 package com.nology.api.repositories;
 
+import jakarta.persistence.Table;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.nology.api.models.Book;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Date;
 
+@Table(name= "book_data")
+@Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByAuthor(String author);
@@ -16,14 +20,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByCategory(String category);
 
-    List<Book> findByScoreGreaterThanEqual(int minScore);
 
-    List<Book> findByScoreLessThanEqual(int maxScore);
-
-    List<Book> findByDateReadBetween(Date startDate, Date endDate);
-
-    List<Book> findAllByOrderByDateAddedDesc();
-
-    List<Book> findByFormat(String format);
 
 }
