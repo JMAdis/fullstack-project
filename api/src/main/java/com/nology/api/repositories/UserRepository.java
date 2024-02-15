@@ -13,12 +13,12 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<UserData, Long> {
 
-    List<Book> findByScoreGreaterThanEqual(int minScore);
+    // List<UserData> findByScoreGreaterThanEqual(int minScore);
 
-    List<Book> findByScoreLessThanEqual(int maxScore);
+    //List<UserData> findByScoreLessThanEqual(int maxScore);
 
-    List<Book> findByDateReadBetween(Date startDate, Date endDate);
+    //List<UserData> findByDateReadBetween(Date startDate, Date endDate);
 
-    List<Book> findAllByOrderByDateAddedDesc();
+    //List<UserData> findAllByOrderByDateAddedDesc();
 
 }

@@ -12,7 +12,7 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private LocalDate dateRead = LocalDate.now() ;
+    private LocalDate dateRead;
     private String review;
     private int score;
     private String format;
@@ -78,6 +78,13 @@ public class UserData {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.dateRead == null) {
+            this.dateRead = LocalDate.now();
+        }
     }
 
     @Override
