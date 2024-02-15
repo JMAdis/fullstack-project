@@ -24,8 +24,6 @@ const App = () => {
   }, []);
 
   const handleBookFormSubmit = async (newBook: BookRequest) => {
-    // Handle submitting the new book to your API or state management
-    // Update the books state accordingly
     setBooks((prevBooks) => [...prevBooks, newBook]);
   };
 

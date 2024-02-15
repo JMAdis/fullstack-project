@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import BookRequest from "../../types/BookRequest";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Form from "../../components/Form/Form";
-import Book from "../../components/Book/Book";
 
 const getFormBook = (book: BookRequest) => {
   return {
@@ -27,10 +26,10 @@ const BookInfo = () => {
   const [showForm, setShowForm] = useState(false);
 
   const getBookById = async (id: number) => {
-    const url = `http://localhost:8080/book/${id}`;
-    const response = await fetch(url);
-    const bookData = await response.json();
-    setBook(bookData);
+      const url = `http://localhost:8080/books/${id}`;
+      const response = await fetch(url);
+      const bookData = await response.json();
+      setBook(bookData);
   };
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const BookInfo = () => {
   }, [id, location]);
 
   const handleUpdateBook = async (updatedBook: BookRequest) => {
-    const result = await fetch(`http://localhost:8080/book/${id}`, {
+    const result = await fetch(`http://localhost:8080/books/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -62,16 +61,24 @@ const BookInfo = () => {
 
   const handleShowForm = () => setShowForm(!showForm);
 
-  if (!book) return null; // You can replace this with any fallback content or nothing at all.
+  if (!book) return null;
 
   const formBook: BookRequest | null = book ? getFormBook(book) : null;
 
   return (
     <section className="book-info">
       <h2 className="book-info__title">Book Information</h2>
+      <h2 className="book-info__title2">{book.bookTitle}</h2>
       <div className="book-info__content">
-        <Book book={book} />
         <img src={book.bookCover} alt={book.bookTitle} />
+        <div>
+          <p>{book.author}</p>
+          <p>{book.category}</p>
+          <p>{book.format}</p>
+          <p>{book.genre}</p>
+          <p>{book.review}</p>
+          <p>{book.score}</p>
+        </div>
         <div className="book-info__buttons">
           <button
             className={

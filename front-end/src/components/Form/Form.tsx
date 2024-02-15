@@ -26,12 +26,17 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
     event: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     key: string
   ) => {
-    let value = event.currentTarget.value;
+    
+    /*
+    let value: string | Date = event.currentTarget.value;
 
     if (key === "score") {
-      value = String(Math.min(10, Math.max(0, parseInt(value, 10))));
+      value = String(Math.min(10, Math.max(0, parseInt(value as string, 10))));
+    } else if (key === "date") {
+      value = (event.currentTarget as HTMLInputElement).valueAsDate || null;
     }
-    setBook({ ...book, [key]: value });
+    */
+    setBook({ ...book, [key]: event.currentTarget.value });
   };
 
   return (
@@ -39,14 +44,14 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
       <h2 className="form-container__title">{formTitle}</h2>
       <form className="form-container__form" onSubmit={handleValidation}>
         <div className="form_container__left">
-          <label htmlFor="Title">Title:</label>
+        <label htmlFor="Title">Title:</label>
           <input
-            id="title"
+            id="bookTitle"
             type="text"
             placeholder="Enter Title"
             value={book.bookTitle}
-            onInput={(event) => handleInput(event, "title")}
-          />
+            onInput={(event) => handleInput(event, "bookTitle")}
+          /> 
           <label htmlFor="Author">Author:</label>
           <input
             id="author"
@@ -63,7 +68,7 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
             value={book.category}
             onInput={(event) => handleInput(event, "category")}
           />
-          <label htmlFor="bookCover">Book Cover:</label>
+          <label htmlFor="BookCover">Book Cover:</label>
           <input
             id="bookCover"
             type="text"
@@ -81,13 +86,14 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
           />
         </div>
         <div className="form-container__right">
-          <label htmlFor="Score">Score:</label>
+        <label htmlFor="Score">Score:</label>
           <input
             id="score"
             type="number"
             placeholder="Enter Score"
             value={book.score}
-            onInput={(event) => handleInput(event, "score")}
+            onChange={(event) => handleInput(event, "score")}
+            max={10}
           />
           <label htmlFor="Review">Review:</label>
           <input
@@ -97,13 +103,13 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
             value={book.review}
             onInput={(event) => handleInput(event, "review")}
           />
-          <label htmlFor="Date">When did you read the book?:</label>
+          <label htmlFor="Date">When did you read the book?</label>
           <input
             id="date"
             type="date"
             placeholder="Enter Date"
-            value={book.date ? book.date.toISOString().split("T")[0] : ""}
-            onInput={(event) => handleInput(event, "date")}
+            value={book.date || ""}
+            onChange={(event) => handleInput(event, "date")}
           />
           <label htmlFor="Format">Format:</label>
           <input
@@ -114,8 +120,8 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
             onInput={(event) => handleInput(event, "format")}
           />
         </div>
+        <button type="submit">Submit</button>
       </form>
-      <button type="submit">Submit</button>
     </div>
   );
 };

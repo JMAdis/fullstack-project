@@ -7,7 +7,7 @@ type BookRequest = {
     genre: string;
     score: number;
     review: string;
-    date: Date;
+    date: Date | string;
     format: string;
 };
 
