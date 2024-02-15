@@ -36,8 +36,8 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
 
   return (
     <div className="form-container">
-      <h2>{formTitle}</h2>
-      <form onSubmit={handleValidation}>
+      <h2 className="form-container__title">{formTitle}</h2>
+      <form className="form-container__form" onSubmit={handleValidation}>
         <div className="form_container__left">
           <label htmlFor="Title">Title:</label>
           <input

@@ -8,17 +8,17 @@
   align-items: center;
   text-align: center;
 
-  h2 {
+  &__title {
     margin-bottom: 1rem;
   }
 
-  form {
+  &__form {
     display: flex;
     width: 80%;
   }
 
-  .form-container__left,
-  .form-container__right {
+  &__left,
+  &__right {
     flex: 1;
     margin-left: 1.5rem;
   }

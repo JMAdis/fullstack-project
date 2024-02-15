@@ -20,7 +20,7 @@ const Carousel = ({ books }: CarouselProps) => {
 
   return (
     <div className="carousel-wrapper">
-      <h2>What you've read this year:</h2>
+      <h2 className="carousel-title">What you've read this year:</h2>
       <Slider className="carousel" {...settings}>
         {books.map((book) => (
           <div key={book.id}>
