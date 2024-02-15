@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import "./BookInfo.scss";
+import { ReactNode, useEffect, useState } from "react";
 import BookRequest from "../../types/BookRequest";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Form from "../../components/Form/Form";
@@ -21,22 +22,30 @@ const getFormBook = (book: BookRequest) => {
 const BookInfo = () => {
   const { id } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
-  const [book, setBook] = useState<BookRequest | null>(null);
+  const [bookData, setBookData] = useState<{
+    dateRead: ReactNode;
+    format: ReactNode;
+    review: ReactNode;
+    score: ReactNode;
+    book: BookRequest;
+    userData: any; 
+  } | null>(null);
   const [showForm, setShowForm] = useState(false);
 
-  const getBookById = async (id: number) => {
+  const getBookAndUserData = async (id: number) => {
       const url = `http://localhost:8080/books/${id}`;
       const response = await fetch(url);
-      const bookData = await response.json();
-      setBook(bookData);
+      const data = await response.json();
+      setBookData(data);
+      console.log(data);
+      console.log(data['dateRead'])
   };
 
   useEffect(() => {
     if (location.state) {
-      setBook(location.state);
+      setBookData(location.state.book);
     } else {
-      getBookById(Number(id));
+      getBookAndUserData(Number(id));
     }
   }, [id, location]);
 
@@ -52,7 +61,7 @@ const BookInfo = () => {
     if (result.ok) {
       alert("Book info updated");
       const updated = await result.json();
-      setBook(updated);
+      setBookData((updated));
     } else {
       const message = await result.text();
       alert(message);
@@ -61,24 +70,28 @@ const BookInfo = () => {
 
   const handleShowForm = () => setShowForm(!showForm);
 
-  if (!book) return null;
+  if (!bookData) {
+    console.log("error on line 78");
+    return null;
+  }
 
-  const formBook: BookRequest | null = book ? getFormBook(book) : null;
+  const { book } = bookData; 
+
+  const formBook: BookRequest | null = bookData?.book ? getFormBook(bookData.book) : null;
 
   return (
     <section className="book-info">
-      <h2 className="book-info__title">Book Information</h2>
-      <h2 className="book-info__title2">{book.bookTitle}</h2>
+      <h2 className="book-info__title">{book.bookTitle} by {book.author}</h2>
       <div className="book-info__content">
-        <img src={book.bookCover} alt={book.bookTitle} />
+        <img className="book-info__img" src={book.bookCover} alt={`${book.bookTitle} by ${book.author}`}   />
         <div>
-          <p>{book.author}</p>
-          <p>{book.category}</p>
-          <p>{book.format}</p>
-          <p>{book.genre}</p>
-          <p>{book.review}</p>
-          <p>{book.score}</p>
-        </div>
+        <p><strong>Date Read: </strong>{bookData.dateRead}</p>
+          <p><strong>Category: </strong>{bookData.book.category}</p>
+          <p><strong>Genre: </strong> {bookData.book.genre}</p>
+          <p><strong>Format: </strong> {bookData.format}</p>
+          <p><strong>Review: </strong>{bookData.review}</p>
+          <p><strong>Score: </strong>{bookData.score} / 10</p>
+        
         <div className="book-info__buttons">
           <button
             className={
@@ -86,10 +99,11 @@ const BookInfo = () => {
                 ? "book-info__button"
                 : "book-info__button book-info__button--secondary"
             }
-            onClick={handleShowForm}
+            onClick={handleShowForm} 
           >
             Update
           </button>
+        </div>
         </div>
       </div>
       {showForm && formBook && (

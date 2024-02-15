@@ -1,0 +1,31 @@
+.book-info {
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+    align-items: center;
+  }
+
+  &__img {
+    max-height: 25rem;
+    align-items: center;
+    margin: auto;
+  }
+
+  &__title {
+    text-align: center;
+    margin: 2rem;
+  }
+
+  &__button {
+    margin: 2rem;
+    background-color: pink;
+    border: grey solid 1px;
+    border-radius: 10%;
+    padding: 0.5rem;
+  }
+
+  p {
+    font-size: 1.15rem;
+  }
+}
