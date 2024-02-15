@@ -16,10 +16,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findAllByGenre(String genre);
 
-    List<Book> findByTitleContainingIgnoreCase(String title);
-
     List<Book> findByCategory(String category);
-
-
 
 }

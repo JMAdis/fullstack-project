@@ -17,11 +17,8 @@ public class UserData {
     private int score;
     private String format;
 
-    @Column(name = "book_id")
-    private long bookId;
-
     @OneToOne
-    @JoinColumn(name = "book_id", insertable = false, updatable = false)
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 
     public long getId() {
@@ -64,14 +61,6 @@ public class UserData {
         this.format = format;
     }
 
-    public long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
-    }
-
     public Book getBook() {
         return book;
     }
@@ -89,7 +78,7 @@ public class UserData {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "UserData{" +
                 "id=" + id +
                 ", dateRead='" + dateRead + '\'' +
                 ", review='" + review + '\'' +

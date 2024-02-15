@@ -1,6 +1,8 @@
 package com.nology.api;
 
+import com.nology.api.BookInfoDTO;
 import com.nology.api.models.Book;
+import com.nology.api.models.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +38,18 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
+    public ResponseEntity<UserData> getBookInfoById(@PathVariable long id) {
+        UserData userData = bookService.getBookInfoById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userData);
+    }
+
+    /*
+    @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable long id) {
         Book book = bookService.getBookById(id);
         return ResponseEntity.status(HttpStatus.OK).body(book);
     }
+     */
 
     // UPDATE
     @PutMapping("/books/{id}")

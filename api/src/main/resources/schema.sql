@@ -6,7 +6,7 @@ USE books;
 
 CREATE TABLE `book_data` (
     `id` bigint NOT NULL AUTO_INCREMENT,
-    `title` varchar(100),
+    `book_title` varchar(100),
     `author` varchar(100),
     `category` varchar(20),
     `book_cover` varchar(200),
