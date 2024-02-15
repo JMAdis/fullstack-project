@@ -1,0 +1,20 @@
+.carousel-wrapper {
+    width: 90%;
+    margin: auto;
+}
+
+.slick-prev, .slick-next {
+    font-size: 24px;
+    line-height: 1;
+    color: pink;
+    background-color: pink;
+  }
+
+  .slick-prev {
+    left: 10px;
+  }
+
+  .slick-next {
+    right: 10px;
+  }
+

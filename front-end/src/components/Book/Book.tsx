@@ -11,7 +11,7 @@ const Book = ({ book }: BookProps) => {
 
   return (
     <Link to={`/book/${id}`}>
-      <img src={bookCover} alt={`${bookTitle}`} />
+      <img className="book-cover" src={bookCover} alt={`${bookTitle}`} />
     </Link>
   );
 };

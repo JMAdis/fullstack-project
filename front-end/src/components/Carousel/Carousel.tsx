@@ -1,43 +1,33 @@
+import "./Carousel.scss";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.scss";
+import "slick-carousel/slick/slick-theme.scss";
 import Book from "../Book/Book";
 import BookRequest from "../../types/BookRequest";
 
 
-const NextArrow = ({ onClick }) => (
-    <button className="custom-next-arrow" onClick={onClick}>
-      Next
-    </button>
-  );
+type CarouselProps = {
+  books: BookRequest[];
+};
 
-  const PrevArrow = ({ onClick }) => (
-    <button className="custom-prev-arrow" onClick={onClick}>
-      Prev
-    </button>
-  );
-
-  type CarouselProps = {
-    books: BookRequest[];
-  };
-
-const Carousel = ( {books} : CarouselProps) => {
+const Carousel = ({ books }: CarouselProps) => {
   const settings = {
     dots: true,
     infinite: true,
     slidesToShow: 5,
     slidesToScroll: 1,
-    nextArrow: <NextArrow onClick={undefined} />,
-    prevArrow: <PrevArrow onClick={undefined} />,
   };
 
-  
   return (
-    <Slider {...settings}>
-      {books.map((book) => (
-        <div key={book.id}>
-          <Book book={book} />
-        </div>
-      ))}
-    </Slider>
+    <div className="carousel-wrapper">
+      <Slider className="carousel" {...settings}>
+        {books.map((book) => (
+          <div key={book.id}>
+            <Book book={book} />
+          </div>
+        ))}
+      </Slider>
+    </div>
   );
 };
 
