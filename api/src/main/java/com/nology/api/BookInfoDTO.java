@@ -6,6 +6,9 @@ public class BookInfoDTO {
     private Book book;
     private UserData userData;
 
+    public BookInfoDTO() {
+    }
+
     public BookInfoDTO(Book book, UserData userData) {
         this.book = book;
         this.userData = userData;

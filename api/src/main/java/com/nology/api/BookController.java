@@ -29,7 +29,6 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
     }
 
-
     // READ
     @GetMapping("/")
     public ResponseEntity<List<Book>> getAllBooks() {
@@ -43,18 +42,12 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(userData);
     }
 
-    /*
-    @GetMapping("/books/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable long id) {
-        Book book = bookService.getBookById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(book);
-    }
-     */
-
     // UPDATE
     @PutMapping("/books/{id}")
-    public ResponseEntity<Book> updateBook(@RequestBody Book updatedBook, @PathVariable long id) {
-       Book book = bookService.updateBook(updatedBook, id);
-       return ResponseEntity.status(HttpStatus.OK).body(book);
+    public ResponseEntity<Book> updateBook(@RequestBody BookInfoDTO bookInfoDTO, @PathVariable long id) {
+        Book updatedBook = bookService.updateBookAndUserData(id, bookInfoDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
     }
 }
+
+

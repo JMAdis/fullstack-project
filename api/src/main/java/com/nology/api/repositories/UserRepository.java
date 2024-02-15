@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<UserData, Long> {
 
+    UserData findByBookId(Long bookId);
 
     // List<UserData> findByScoreGreaterThanEqual(int minScore);
 

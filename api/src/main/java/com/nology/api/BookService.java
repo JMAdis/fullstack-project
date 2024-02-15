@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import com.nology.api.models.Book;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,10 +29,7 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-
-
     // READ
-
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
@@ -39,25 +37,41 @@ public class BookService {
     public Book getBookById(long id) {
         return bookRepository.findById(id)
                 .orElseThrow(()
-                -> new EntityNotFoundException("Book Not Found"));
+                        -> new EntityNotFoundException("Book Not Found"));
     }
 
     public UserData getBookInfoById(long id) {
-        //Optional<Book> optionalBook = bookRepository.findById(id);
-        //Book book = optionalBook.orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
-
-        Optional<UserData> optionalUserData = userRepository.findById(id);
-        UserData userData = optionalUserData.orElse(null);
-
-        return userData;
+        return userRepository.findById(id).orElse(null);
     }
 
     // UPDATE
+    @Transactional
     @Modifying
-    public Book updateBook(Book updatedBook, long id) {
-        if (!bookRepository.existsById(id)) {
-            throw new EntityNotFoundException("Book Not Found");
+    public Book updateBookAndUserData(long bookId, BookInfoDTO bookInfoDTO) {
+        Book bookToUpdate = bookRepository.findById(bookId)
+                .orElseThrow(()
+                        -> new EntityNotFoundException("Book not found with id:" + bookId));
+
+        updateBookData(bookToUpdate, bookInfoDTO.getBook());
+        updateUserData(bookInfoDTO.getUserData(), bookId);
+
+        return bookRepository.save(bookToUpdate);
+    }
+
+    private void updateBookData(Book bookToUpdate, Book updatedBook) {
+        bookToUpdate.setBookTitle(updatedBook.getBookTitle());
+        bookToUpdate.setAuthor(updatedBook.getAuthor());
+    }
+
+    private void updateUserData(UserData userData, long bookId) {
+        UserData existingUserData = userRepository.findByBookId(bookId);
+
+        if (existingUserData != null) {
+            existingUserData.setDateRead(userData.getDateRead());
+            existingUserData.setReview(userData.getReview());
+            existingUserData.setScore(userData.getScore());
+            userRepository.save(existingUserData);
         }
-        return bookRepository.save(updatedBook);
     }
 }
+
