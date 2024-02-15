@@ -28,11 +28,11 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
   ) => {
     let value = event.currentTarget.value;
 
-    if (key === 'score') {
-        value = String(Math.min(10, Math.max(0, parseInt(value, 10))));
+    if (key === "score") {
+      value = String(Math.min(10, Math.max(0, parseInt(value, 10))));
     }
-    setBook({...book, [key]: value});
-}
+    setBook({ ...book, [key]: value });
+  };
 
   return (
     <div className="form-container">
@@ -81,38 +81,38 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
           />
         </div>
         <div className="form-container__right">
-        <label htmlFor="Score">Score:</label>
-        <input
-          id="score"
-          type="number"
-          placeholder="Enter Score"
-          value={book.score}
-          onInput={(event) => handleInput(event, "score")}
-        />
-        <label htmlFor="Review">Review:</label>
-        <input
-          id="review"
-          type="text"
-          placeholder="Enter Review"
-          value={book.review}
-          onInput={(event) => handleInput(event, "review")}
-        />
-        <label htmlFor="Date">When did you read the book?:</label>
-        <input
-          id="date"
-          type="date"
-          placeholder="Enter Date"
-          value={book.date ? book.date.toISOString().split("T")[0] : ""}
-          onInput={(event) => handleInput(event, "date")}
-        />
-        <label htmlFor="Format">Format:</label>
-        <input
-          id="format"
-          type="text"
-          placeholder="Enter Format"
-          value={book.format}
-          onInput={(event) => handleInput(event, "format")}
-        />
+          <label htmlFor="Score">Score:</label>
+          <input
+            id="score"
+            type="number"
+            placeholder="Enter Score"
+            value={book.score}
+            onInput={(event) => handleInput(event, "score")}
+          />
+          <label htmlFor="Review">Review:</label>
+          <input
+            id="review"
+            type="text"
+            placeholder="Enter Review"
+            value={book.review}
+            onInput={(event) => handleInput(event, "review")}
+          />
+          <label htmlFor="Date">When did you read the book?:</label>
+          <input
+            id="date"
+            type="date"
+            placeholder="Enter Date"
+            value={book.date ? book.date.toISOString().split("T")[0] : ""}
+            onInput={(event) => handleInput(event, "date")}
+          />
+          <label htmlFor="Format">Format:</label>
+          <input
+            id="format"
+            type="text"
+            placeholder="Enter Format"
+            value={book.format}
+            onInput={(event) => handleInput(event, "format")}
+          />
         </div>
       </form>
       <button type="submit">Submit</button>
