@@ -7,10 +7,10 @@ type BookRequest = {
     category: string;
     bookCover: string;
     genre: string;
-    score: number | ReactNode;
-    review: string | ReactNode;
-    dateRead: Date | string | ReactNode;
-    format: string | ReactNode;
+    score: number;
+    review: string;
+    dateRead: Date | string;
+    format: string;
 };
 
 export default BookRequest;

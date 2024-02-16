@@ -1,6 +1,5 @@
 package com.nology.api;
 
-import com.nology.api.BookInfoDTO;
 import com.nology.api.models.UserData;
 import com.nology.api.repositories.BookRepository;
 import com.nology.api.repositories.UserRepository;
@@ -12,8 +11,6 @@ import com.nology.api.models.Book;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -25,8 +22,23 @@ public class BookService {
     private UserRepository userRepository;
 
     // CREATE
+
+    @Transactional
+    @Modifying
+    public Book addBookAndUserData(BookInfoDTO bookInfoDTO) {
+        Book newBook = addBook(bookInfoDTO.getBook());
+
+        addUser(bookInfoDTO.getUserData(), newBook.getId());
+
+        return newBook;
+    }
+
     public Book addBook(Book book) {
         return bookRepository.save(book);
+    }
+
+    public UserData addUser(UserData userData, Long id) {
+        return userRepository.save(userData);
     }
 
     // READ

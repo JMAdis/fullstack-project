@@ -24,8 +24,8 @@ public class BookController {
 
     // CREATE
     @PostMapping("/")
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        Book newBook = bookService.addBook(book);
+    public ResponseEntity<Book> createBookAndUserData(@RequestBody BookInfoDTO bookInfoDTO) {
+        Book newBook = bookService.addBookAndUserData(bookInfoDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
     }
 
