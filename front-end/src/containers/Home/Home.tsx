@@ -10,7 +10,10 @@ type HomeProps = {
 
 const Home = ({ books, onBookFormSubmit }: HomeProps) => {
 
+  // Function to handle book creation form submission
   const handleCreateBook = async (newBook: BookRequest) => {
+
+    // Make a POST request to create a new book
     const result = await fetch("http://localhost:8080/books", {
       method: "POST",
       headers: {
@@ -19,6 +22,7 @@ const Home = ({ books, onBookFormSubmit }: HomeProps) => {
       body: JSON.stringify(newBook),
     });
     
+    // Handle the response, show alert on success or error
     if (result.ok) {
       alert("Book created successfully");
       const createdBook = await result.json();
@@ -41,7 +45,7 @@ const Home = ({ books, onBookFormSubmit }: HomeProps) => {
           genre: "",
           score: 0,
           review: "",
-          dateRead: new Date(),
+          dateRead: "",
           format: "",
         }}
         formTitle={"What book are you reading?"}

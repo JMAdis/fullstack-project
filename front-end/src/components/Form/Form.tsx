@@ -11,22 +11,44 @@ type FormProps = {
 const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
   const [book, setBook] = useState<BookRequest>(defaultFormState);
 
+  // Function to handle form validation and submission
   const handleValidation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (Object.values(book).some((value) => !value)) {
+    // Check if any form field is empty or invalid
+    if (Object.values(book).some((value) => {
+      if (typeof value === 'string') {
+        return value.trim() === "";
+      } else if (typeof value === 'number') {
+        return isNaN(value);
+      } else {
+        return !value;
+      }
+    })) {
+      
+      // Display an alert if validation fails
       alert("Missing content, unable to proceed");
       return;
     }
-
+    
+    // If validation passes, submit the form data
     handleSubmit(book);
   };
 
+  // Function to handle input changes and update the state
   const handleInput = (
     event: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     key: string
   ) => {
-    setBook({ ...book, [key]: event.currentTarget.value });
+    
+    // Extract the value from the input event
+    const value = 
+    key === 'dateRead' 
+    ? (event.currentTarget.value as string) 
+    : event.currentTarget.value;
+    
+    // Update the state with the new value
+    setBook({ ...book, [key]: value === undefined ? '' : value });
   };
 
   return (
@@ -84,6 +106,7 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
             value={book.score}
             onChange={(event) => handleInput(event, "score")}
             max={10}
+            min={0}
           />
           <label htmlFor="Review">Review:</label>
           <input
@@ -93,13 +116,12 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
             value={book.review}
             onInput={(event) => handleInput(event, "review")}
           />
-          <label htmlFor="Date">When did you read the book?</label>
+          <label htmlFor="DateRead">When did you read the book?</label>
           <input
-            id="date"
+            id="dateRead"
             type="date"
-            placeholder="Enter Date"
             value={book.dateRead || ""}
-            onChange={(event) => handleInput(event, "date")}
+            onChange={(event) => handleInput(event, "dateRead")}
           />
           <label htmlFor="Format">Format:</label>
           <input
