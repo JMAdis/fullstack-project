@@ -20,7 +20,7 @@ const Home = ({ books, onBookFormSubmit }: HomeProps) => {
           genre: "",
           score: 0,
           review: "",
-          date: new Date(),
+          dateRead: new Date(),
           format: "",
         }}
         formTitle={"What book are you reading?"}

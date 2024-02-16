@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
-import BookRequest from "../../types/BookRequest";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import Form from "../../components/Form/Form";
 import "./BookInfo.scss";
+import { ReactNode, useEffect, useState } from "react";
+import BookRequest from "../../types/BookRequest";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import Form from "../../components/Form/Form";
 
-const getFormBook = (book: BookRequest, bookData: any) => {
-  const { score, review, dateRead, format } = bookData;
+const getFormBook = (book: BookRequest, bookData: {
+    dateRead: ReactNode;
+    format: ReactNode;
+    review: ReactNode;
+    score: ReactNode;
+  }
+) => {
   return {
     id: book.id,
     bookTitle: book.bookTitle,
@@ -13,18 +18,25 @@ const getFormBook = (book: BookRequest, bookData: any) => {
     category: book.category,
     bookCover: book.bookCover,
     genre: book.genre,
-    score,
-    review,
-    dateRead,
-    format,
+    score: bookData.score,
+    review: bookData.review,
+    dateRead: bookData.dateRead,
+    format: bookData.format,
   };
 };
 
-const BookInfo = () => {
+const BookInfo6 = () => {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const [bookData, setBookData] = useState<any>(null);
+  const [bookData, setBookData] = useState<{
+    dateRead: ReactNode;
+    format: ReactNode;
+    review: ReactNode;
+    score: ReactNode;
+    book: BookRequest;
+    userData: any;
+  } | null>(null);
   const [showForm, setShowForm] = useState(false);
 
   const getBookAndUserData = async (id: number) => {
@@ -32,6 +44,8 @@ const BookInfo = () => {
     const response = await fetch(url);
     const data = await response.json();
     setBookData(data);
+    console.log(data);
+    console.log(data["dateRead"]);
   };
 
   useEffect(() => {
@@ -48,12 +62,17 @@ const BookInfo = () => {
       review: updatedBook.review,
       score: updatedBook.score,
       format: updatedBook.format,
-    };
+    }
 
     const updatedData = {
-      book: { ...updatedBook },
-      userData: updatedUserData,
-    };
+      book: {
+        ...updatedBook
+      },
+      userData: updatedUserData
+    }
+
+    console.log(updatedData)
+
 
     const result = await fetch(`http://localhost:8080/books/${id}`, {
       method: "PUT",
@@ -74,19 +93,7 @@ const BookInfo = () => {
     }
   };
 
-  const handleShowForm = () => {
-    setShowForm(!showForm);
-
-    setTimeout(() => {
-      const formElement = document.getElementById("update-form")
-      console.log(formElement)
-      if (formElement) {
-        formElement.scrollIntoView({behavior: "smooth"});
-      } else {
-        console.error("Element with ID 'update-form' not found");
-      }
-    }, 0)
-  };
+  const handleShowForm = () => setShowForm(!showForm);
 
   if (!bookData) {
     console.error("error");
@@ -94,9 +101,10 @@ const BookInfo = () => {
   }
 
   const { book } = bookData;
-  const { score, review, dateRead, format } = bookData;
 
-  const formBook = getFormBook(book, { score, review, dateRead, format });
+  const formBook: BookRequest | null = bookData
+    ? getFormBook(bookData.book, bookData)
+    : null;
 
   return (
     <section className="book-info">
@@ -112,31 +120,33 @@ const BookInfo = () => {
         <div>
           <p>
             <strong>Category: </strong>
-            {book.category}
+            {bookData.book.category}
           </p>
           <p>
-            <strong>Genre: </strong> {book.genre}
+            <strong>Genre: </strong> {bookData.book.genre}
           </p>
           <p>
             <strong>Score: </strong>
-            {score} / 10
+            {bookData.score} / 10
           </p>
           <p>
             <strong>Review: </strong>
-            {review}
+            {bookData.review}
           </p>
           <p>
             <strong>Date Read: </strong>
-            {dateRead}
+            {bookData.dateRead}
           </p>
           <p>
-            <strong>Format: </strong> {format}
+            <strong>Format: </strong> {bookData.format}
           </p>
           <div className="book-info__buttons">
             <button
-              className={`book-info__button ${
-                showForm ? "" : "book-info__button--secondary"
-              }`}
+              className={
+                showForm
+                  ? "book-info__button"
+                  : "book-info__button book-info__button--secondary"
+              }
               onClick={handleShowForm}
             >
               Update
@@ -145,7 +155,7 @@ const BookInfo = () => {
         </div>
       </div>
       {showForm && formBook && (
-        <Form 
+        <Form
           defaultFormState={formBook}
           formTitle="Update book info"
           handleSubmit={handleUpdateBook}
@@ -155,4 +165,4 @@ const BookInfo = () => {
   );
 };
 
-export default BookInfo;
+export default BookInfo6;

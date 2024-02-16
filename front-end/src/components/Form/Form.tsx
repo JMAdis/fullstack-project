@@ -26,23 +26,13 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
     event: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     key: string
   ) => {
-    
-    /*
-    let value: string | Date = event.currentTarget.value;
-
-    if (key === "score") {
-      value = String(Math.min(10, Math.max(0, parseInt(value as string, 10))));
-    } else if (key === "date") {
-      value = (event.currentTarget as HTMLInputElement).valueAsDate || null;
-    }
-    */
     setBook({ ...book, [key]: event.currentTarget.value });
   };
 
   return (
     <div className="form-container">
       <h2 className="form-container__title">{formTitle}</h2>
-      <form className="form-container__form" onSubmit={handleValidation}>
+      <form className="form-container__form" onSubmit={handleValidation} id="update-form">
         <div className="form_container__left">
         <label htmlFor="Title">Title:</label>
           <input
@@ -108,7 +98,7 @@ const Form = ({ defaultFormState, formTitle, handleSubmit }: FormProps) => {
             id="date"
             type="date"
             placeholder="Enter Date"
-            value={book.date || ""}
+            value={book.dateRead || ""}
             onChange={(event) => handleInput(event, "date")}
           />
           <label htmlFor="Format">Format:</label>

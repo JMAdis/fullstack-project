@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 type BookRequest = {
     id: number;
     bookTitle: string;
@@ -5,10 +7,10 @@ type BookRequest = {
     category: string;
     bookCover: string;
     genre: string;
-    score: number;
-    review: string;
-    date: Date | string;
-    format: string;
+    score: number | ReactNode;
+    review: string | ReactNode;
+    dateRead: Date | string | ReactNode;
+    format: string | ReactNode;
 };
 
 export default BookRequest;
